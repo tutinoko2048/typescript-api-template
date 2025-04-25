@@ -1,0 +1,15 @@
+{
+  "name": "sample",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "rolldown -c"
+  },
+  "devDependencies": {
+    "rolldown": "^1.0.0-beta.8",
+    "rolldown-plugin-dts": "^0.8.6"
+  },
+  "dependencies": {
+    "@minecraft/server": "2.0.0-beta.1.21.70-stable"
+  }
+}

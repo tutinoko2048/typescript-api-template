@@ -1,0 +1,9 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "target": "ES2023",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "outDir": "dist"
+  }
+}
