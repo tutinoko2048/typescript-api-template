@@ -23,6 +23,12 @@ jobs:
 
       - name: Build
         run: npm run build
+        
+      - name: Get name from package.json
+        id: get_name
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
 
       - name: Get latest tag and increment
         id: get_version
@@ -38,13 +44,21 @@ jobs:
           fi
           echo "tag=$new_tag" >> $GITHUB_OUTPUT
 
+      - name: Inject header and rename
+        run: |
+          VERSION="${{ steps.get_version.outputs.tag }}"
+          echo "/** $PACKAGE_NAME $VERSION **/" | cat - dist/index.js > tmp && mv tmp dist/index.js
+          echo "/** $PACKAGE_NAME $VERSION **/" | cat - dist/index.d.ts > tmp && mv tmp dist/index.d.ts
+          mv dist/index.js dist/$PACKAGE_NAME.js
+          mv dist/index.d.ts dist/$PACKAGE_NAME.d.ts
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.get_version.outputs.tag }}
           name: ${{ steps.get_version.outputs.tag }}
           files: |
-            dist/*.js
-            dist/*.d.ts
+            dist/${{ env.PACKAGE_NAME }}.js
+            dist/${{ env.PACKAGE_NAME }}.d.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
