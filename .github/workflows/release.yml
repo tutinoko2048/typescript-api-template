@@ -52,6 +52,12 @@ jobs:
           mv dist/index.js dist/$PACKAGE_NAME.js
           mv dist/index.d.ts dist/$PACKAGE_NAME.d.ts
 
+      - name: Create zip package
+        run: |
+          VERSION="${{ steps.get_version.outputs.tag }}"
+          cd dist
+          zip "${PACKAGE_NAME}_${VERSION}.zip" "${PACKAGE_NAME}.js" "${PACKAGE_NAME}.d.ts"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -60,5 +66,6 @@ jobs:
           files: |
             dist/${{ env.PACKAGE_NAME }}.js
             dist/${{ env.PACKAGE_NAME }}.d.ts
+            dist/${{ env.PACKAGE_NAME }}_${{ steps.get_version.outputs.tag }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

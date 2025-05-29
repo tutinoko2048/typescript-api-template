@@ -9,12 +9,12 @@ export default defineConfig({
   output: {
     dir: OUTDIR,
     target: 'es2023',
-    sourcemap: 'inline',
+    // sourcemap: 'inline',
   },
   plugins: [
     dts()
   ],
   external: [
-    /^@minecraft\/(?!vanilla-data|math)/,
+    /^@minecraft\/(?!vanilla-data|math)[\w-\/]+$/,
   ]
 })

@@ -1,9 +1,10 @@
 {
-  "name": "sample",
+  "name": "scriptapi-lib-template",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "rolldown -c"
+    "build": "rolldown -c",
+    "watch": "rolldown --watch -c"
   },
   "devDependencies": {
     "rolldown": "^1.0.0-beta.8",
